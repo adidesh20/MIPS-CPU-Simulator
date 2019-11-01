@@ -1,0 +1,1 @@
+This is a readme file for our MIPS Simulator
