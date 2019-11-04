@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 #include "memory.hpp"
-#include "memory.cpp"
+//#include "memory.cpp"
 
 int main(int argc, char *argv[])
 {
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	char buffer[size];
 	bin.read(buffer, size);
 
-	std::vector<uint8_t> ADDR_INSTR;
+	/*std::vector<uint8_t> ADDR_INSTR;
 	ADDR_INSTR.assign(0x1000000, 0);
 	
 	for (int i = 0; i < size/8; i++)
@@ -55,7 +55,9 @@ int main(int argc, char *argv[])
 		//std::cout << std::endl << byte << std::endl;
 		uint8_t int_byte = std::stoi(byte, 0, 2);
 		ADDR_INSTR[i] = int_byte;
-	}
+	}*/
+
+	memory mips(bin);
 
 
 	
