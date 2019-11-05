@@ -26,12 +26,13 @@ private:
 	void look_up_r();
 	void look_up_j();
 	void look_up_i();
+	void add(std::vector<uint32_t> registers);
 
 public:
-	instruction(uint32_t instr);
+	instruction_class(uint32_t instr);
 	void decode();
-	void look_up();
-
+	void look_up(std::vector<uint32_t> registers);
+	
 };
 
 #endif // !INSTRUCT
