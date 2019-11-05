@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include "constants.hpp"
 #include "memory.hpp"
+#include "instruction.hpp"
 
 char decode(uint32_t instruction, uint8_t& opcode);
 void decode_r(uint32_t instruction, uint8_t& r_source1, uint8_t& r_source2, uint8_t& r_dest, uint8_t& r_shiftamt, uint8_t& r_fn);
@@ -26,7 +27,10 @@ int main(int argc, char *argv[])
 	}
 
 	std::vector<uint32_t> registers;
-	register.assign(32, 0);
+	registers.assign(32, 0);
+	registers[1] = 1;
+	registers[2] = 2;
+
 
 	std::ifstream bin(argv[1], std::ios::in | std::ios::binary | std::ios::ate);
 
@@ -71,83 +75,9 @@ int main(int argc, char *argv[])
 	memory mips_mem(bin);
 	mips_mem.get_instr(pc, instruction);
 	std::cout << instruction << std::endl;
-	char instr_type = decode(instruction);
-	uint8_t r_source1;
-	uint8_t r_source2;
-	uint8_t r_dest;
-	uint8_t r_shiftamt;
-	uint8_t r_fn;
-	uint8_t i_source1;
-	uint8_t i_dest;
-	uint16_t i_Astart;
-	uint32_t j_address;
+	instruction_class mips_instr(instruction);
+	mips_instr.decode();
+	mips_instr.look_up(registers);
 
-	if (instr_type == 'R')
-	{
-		decode_r(instruction, r_source1, r_source2, r_dest, r_shiftamt, r_fn);
-	}
-	else if(instr_type == 'J')
-	{
-		decode_j(instruction, j_address);
-	}
-	else if(instr_type == 'I')
-	{
-		decode_i(instruction, i_source1, i_dest, i_Astart);
-	}
-
-
+	return(0);
 }
-
-char decode(uint32_t instruction, uint8_t&opcode)
-{
-	opcode = instruction >> 26;
-
-	if (opcode == 0)
-	{
-		return 'R';
-	}
-	else if (opcode == 2 || opcode == 3)
-	{
-		return 'J';
-	}
-	else
-	{
-		return 'I';
-	}
-}
-
-void decode_r(uint32_t instruction, uint8_t& r_source1, uint8_t& r_source2, uint8_t& r_dest, uint8_t& r_shiftamt, uint8_t& r_fn)
-{
-	uint32_t instr_temp = instruction << 6;
-	r_source1 = instr_temp >> 27;
-	instr_temp = instruction << 11;
-	r_source2 = instr_temp >> 27;
-	instr_temp = instruction << 16;
-	r_dest = instr_temp >> 27;
-	instr_temp = instruction << 21;
-	r_shiftamt = instr_temp >> 27;
-	instr_temp = instruction << 26;
-	r_fn = instr_temp >> 26;
-
-	//std::cout << r_source1 << " " << r_source2 << " " << r_dest << " " << r_shiftamt << " " << r_fn;
-}
-void decode_j(uint32_t instruction, uint32_t& j_address)
-{
-	uint32_t instr_temp = instruction << 6;
-	j_address = instr_temp >> 6;
-	
-	//std::cout << j_address;
-}
-void decode_i(uint32_t instruction, uint8_t& i_source1, uint8_t& i_dest, uint16_t& i_Astart)
-{
-	uint32_t instr_temp = instruction << 6;
-	i_source1 = instr_temp >> 27;
-	instr_temp = instruction << 11;
-	i_dest = instr_temp >> 27;
-	instr_temp = instruction << 16;
-	i_Astart = instr_temp >> 16;
-
-	//std::cout << i_source1 << std::endl << i_dest << std::endl << i_Astart;
-
-}
-
