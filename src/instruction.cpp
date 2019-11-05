@@ -76,11 +76,16 @@ void instruction_class::extract_i()
 	i_Astart = instr_temp >> 16;
 }
 
-void instruction_class::look_up()
+void instruction_class::look_up(std::vector<uint32_t> registers)
 {
 	if (type == 'R')
 	{
 		//call r 
+		if (r_fn == 32) 
+		{
+			
+			return add(registers);
+		}
 		
 
 	}
@@ -113,4 +118,19 @@ void instruction_class::look_up_j()
 void instruction_class::look_up_i()
 {
 
+}
+
+void instruction_class::add(std::vector<uint32_t> registers)
+{
+	int source1;
+	int source2;
+	if (r_source1 == 1 && r_source2 == 2)
+	{
+		source1 = 1;
+		source2 = 2;
+	}
+	
+	std::cout << source1 << " + " << source2 << " = ";
+	registers[r_dest] = registers[r_source1] + registers[r_source2];
+	std::cout << registers[r_dest] << std::endl;
 }
