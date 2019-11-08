@@ -1,4 +1,10 @@
-int pc = 0x10000000;
-bool jump;
-uint32_t jump_addr;
-bool bye;
+#ifndef GLOBAL
+#define GLOBAL
+#include <iostream>
+
+extern int pc;
+extern bool jump;
+extern uint32_t jump_addr;
+
+
+#endif
