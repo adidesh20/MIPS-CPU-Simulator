@@ -2,6 +2,8 @@
 #define	INSTRUCT
 
 #include<iostream>
+#include "memory.hpp"
+#include "global_vars.hpp"
 
 class instruction_class
 {
@@ -23,15 +25,22 @@ private:
 	void extract_j();
 	void extract_i();
 
-	void look_up_r();
-	void look_up_j();
-	void look_up_i();
-	void add(std::vector<uint32_t> registers);
+	void execute_r(std::vector<int32_t>& registers);
+	void execute_j(std::vector<int32_t>& registers);
+	void execute_i(std::vector<int32_t>& registers);
+	
+	void addu(std::vector<int32_t>& registers);
+	void add(std::vector<int32_t>& registers);
+	void jr(std::vector<int32_t>& registers);
+	
+
+	void lw(std::vector<int32_t>& registers, memory mips_mem);
+	void sw(std::vector<int32_t>& registers, memory mips_mem);
 
 public:
 	instruction_class(uint32_t instr);
 	void decode();
-	void look_up(std::vector<uint32_t> registers);
+	void execute(std::vector<int32_t>& registers, memory mips_mem, int& pc);
 	
 };
 
