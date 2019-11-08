@@ -13,6 +13,7 @@ memory::memory(std::ifstream &bin)
 	int size = bin.tellg();
 	bin.seekg(0);
 	char buffer[size];
+	//std::cout << size;
 	bin.read(buffer, size);
 	ADDR_INSTR.assign(INSTR_LENGTH, 0);
 	ADDR_DATA.assign(DATA_LENGTH, 0);
@@ -27,7 +28,6 @@ memory::memory(std::ifstream &bin)
 		//std::cout << std::endl << byte << std::endl;
 		uint8_t int_byte = std::stoi(byte, 0, 2);
 		ADDR_INSTR[i] = int_byte;
-		std::cerr << "Reached end" << std::endl;
 	}
 	end_index = size / 8;
 }
@@ -44,6 +44,7 @@ void  memory::get_instr(uint32_t& instr)
 	instr += ADDR_INSTR[index + 1] << 16;
 	instr += ADDR_INSTR[index + 2] << 8;
 	instr += ADDR_INSTR[index + 3];
+	//std::cerr << instr <<std::endl;
 
 }
 
@@ -99,7 +100,7 @@ void memory::put_word(uint32_t address, uint32_t& word)
 	{
 		uint32_t index = address - DATA_BASE;
 		ADDR_DATA[index] = word >> 24;
-		uint32_t word_temp << 8;
+		uint32_t word_temp = word << 8;
 		ADDR_DATA[index + 1] = word_temp >> 24;
 		word_temp = word << 16;
 		ADDR_DATA[index + 2] = word_temp >> 24;
@@ -111,9 +112,13 @@ void memory::put_word(uint32_t address, uint32_t& word)
 
 bool memory::end_check()
 {
-	int index = pc - DATA_BASE;
+	int index = pc - INSTR_BASE;
 	if (index == end_index)
 	{
 		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
