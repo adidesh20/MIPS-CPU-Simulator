@@ -2,6 +2,7 @@
 #include<string>
 #include <fstream>
 #include <cstdlib>
+#include <vector>
 #include "constants.hpp"
 #include "memory.hpp"
 #include "instruction.hpp"
@@ -34,7 +35,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		std::cerr << "File was found!";
+		std::cerr << "File was found!" << std::endl;
 
 	}
 
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
 			uint32_t extra_instruction;
 			instruction_class extra(extra_instruction);
 			extra.decode();
-			extra.execute();
+			extra.execute(registers, mips_mem);
 			pc = jump_addr;
 			jump = false;
 		}
@@ -62,16 +63,14 @@ int main(int argc, char *argv[])
 		{
 			pc += 4;
 		}
-
+		
 		if (mips_mem.end_check())
 		{
 			pc = 0;
 		}
-
-		int32_t r2 = registers[2] << 24;
-		uint8_t ret = r2 >> 24;
-
-		return ret;
 	}
-	return(0);
+	int32_t r2 = registers[2] << 24;
+	uint8_t ret = r2 >> 24;
+	std::exit(ret);
+	return 0;
 }
