@@ -25,10 +25,11 @@ private:
 	void extract_j();
 	void extract_i();
 
+
 	void execute_r(std::vector<int32_t>& registers, memory mips_mem);
 	void execute_j(std::vector<int32_t>& registers, memory mips_mem);
 	void execute_i(std::vector<int32_t>& registers, memory mips_mem);
-	
+
 	void addu(std::vector<int32_t>& registers);
 	void add(std::vector<int32_t>& registers);
 	void jr(std::vector<int32_t>& registers);
@@ -36,17 +37,20 @@ private:
 	void or_r(std::vector<int32_t>& registers);
 	void xor_r(std::vector<int32_t>& registers);
 	void ssl(std::vector<int32_t>& registers);
-	
+
 	void addi(std::vector<int32_t>& registers);
 	void lw(std::vector<int32_t>& registers, memory mips_mem);
 	void sw(std::vector<int32_t>& registers, memory mips_mem);
-
+	void lui(std::vector<int32_t>& registers);
+	void ori(std::vector<int32_t>& registers);
 
 public:
-	instruction_class(uint32_t instr);
+	instruction_class();
+	instruction_class(uint32_t instr_in);
+	void delayed_init(uint32_t instr_in);
 	void decode();
 	void execute(std::vector<int32_t>& registers, memory mips_mem);
-	
+
 };
 
 #endif // !INSTRUCT
