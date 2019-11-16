@@ -5,8 +5,33 @@
 #include "instruction.hpp"
 #include "global_vars.hpp"
 
-//==========================CONSTRUCTOR==========================//
+//==========================CONSTRUCTORS==========================//
+
+
+instruction_class::instruction_class()
+{
+	//here for the delay slot
+}
+
 instruction_class::instruction_class(uint32_t instr_in)
+{
+	instr = instr_in;
+	opcode = instr_in >> 26;
+	if (opcode == 0)
+	{
+		type = 'R';
+	}
+	else if (opcode == 2 || opcode == 3)
+	{
+		type = 'J';
+	}
+	else
+	{
+		type = 'I';
+	}
+}
+
+void instruction_class::delayed_init(uint32_t instr_in)
 {
 	instr = instr_in;
 	opcode = instr_in >> 26;
@@ -49,6 +74,8 @@ void instruction_class::decode()
 	{
 		std::cout << "ERROR";
 	}
+
+
 }
 
 void instruction_class::extract_r()
@@ -84,6 +111,7 @@ void instruction_class::extract_i()
 }
 
 
+
 //==========================EXECUTION==========================//
 void instruction_class::execute(std::vector<int32_t>& registers, memory mips_mem)
 {
@@ -117,21 +145,24 @@ void instruction_class::execute_r(std::vector<int32_t>& registers, memory mips_m
 	//std::cerr << "Executing R Type" << std::endl;
 	switch (r_fn)
 	{
-		case 33: 
-			addu(registers);
-			break;
-		case 32: 
-			add(registers);
-			break;
-		default: std::cerr << "Default Path Taken";
-			break;
+	case 33:
+		addu(registers);
+		break;
+	case 32:
+		add(registers);
+		break;
+	case 8:
+		jr(registers);
+
+	default: std::cerr << "Default Path Taken";
+		break;
 
 	}
 }
 
 void instruction_class::execute_j(std::vector<int32_t>& registers, memory mips_mem)
 {
-	
+
 }
 
 void instruction_class::execute_i(std::vector<int32_t>& registers, memory mips_mem)
@@ -139,15 +170,18 @@ void instruction_class::execute_i(std::vector<int32_t>& registers, memory mips_m
 	//std::cerr << "Executing I Type" << std::endl;
 	switch (opcode)
 	{
-	case 35: 
+	case 35:
 		lw(registers, mips_mem);
 		break;
-	case 43: 
+	case 43:
 		sw(registers, mips_mem);
 		break;
 	case 8:
 		//std::cerr << "entering addi" << std::endl;
 		addi(registers);
+		break;
+	case 15:
+		lui(registers);
 		break;
 	default: std::cerr << "Nothing Chosen" << std::endl;
 	}
@@ -183,12 +217,12 @@ void instruction_class::add(std::vector<int32_t>& registers)
 void instruction_class::jr(std::vector<int32_t>& registers)
 {
 	jump = true;
-	jump_addr = registers[j_address];
+	jump_addr = registers[r_source1];
 }
 
-void instruction_class:: and_r(std::vector<int32_t>& registers)
+void instruction_class::and_r(std::vector<int32_t>& registers)
 {
-	if (r_dest == 0) { return;}
+	if (r_dest == 0) { return; }
 	else
 	{
 		registers[r_dest] = registers[r_source1] & registers[r_source2];
@@ -235,10 +269,23 @@ void instruction_class::lw(std::vector<int32_t>& registers, memory mips_mem)
 
 void instruction_class::sw(std::vector<int32_t>& registers, memory mips_mem)
 {
-	uint32_t address = registers[i_source1] + i_Astart;;
+	uint32_t address = registers[i_source1] + i_Astart;
 	uint32_t word = registers[i_dest];
 	mips_mem.put_word(address, word);
 }
+
+void instruction_class::lui(std::vector<int32_t>& registers)
+{
+	registers[i_dest] >> 16;
+	registers[i_dest] << 16;
+	registers[i_dest] = registers[i_dest] + i_Astart << 16;
+}
+void instruction_class::ori(std::vector<int32_t>& registers)
+{
+	int32_t imm = i_Astart; //sign extension
+	registers[i_dest] = registers[i_source1] | imm;
+}
+
 
 void instruction_class::addi(std::vector<int32_t>& registers)
 {
