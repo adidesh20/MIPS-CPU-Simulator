@@ -6,19 +6,24 @@
 #include "constants.hpp"
 #include "global_vars.hpp"
 
-
 memory::memory(std::ifstream &bin)
 {
 	bin.seekg(0, bin.end);
 	int size = bin.tellg();
 	bin.seekg(0);
-	char buffer[size];
+	char * buffer;
+	buffer = new char[size];
 	//std::cout << size;
 	bin.read(buffer, size);
 	ADDR_INSTR.assign(INSTR_LENGTH, 0);
 	ADDR_DATA.assign(DATA_LENGTH, 0);
 
-	for (int i = 0; i < size / 8; i++)
+
+	for (int i = 0; i < size; i++)
+	{
+		ADDR_INSTR[i] = buffer[i];
+	}
+	/*for (int i = 0; i < size / 8; i++)
 	{
 		std::string byte;
 		for (int j = 0; j < 8; j++)
@@ -29,7 +34,7 @@ memory::memory(std::ifstream &bin)
 		uint8_t int_byte = std::stoi(byte, 0, 2);
 		ADDR_INSTR[i] = int_byte;
 	}
-	end_index = size / 8;
+	end_index = size / 8;*/
 }
 
 void  memory::get_instr(uint32_t& instr)
@@ -63,7 +68,7 @@ void memory::get_byte(uint32_t address, uint8_t& byte)
 
 void memory::get_word(uint32_t address, uint32_t& word)
 {
-	if (address < DATA_BASE || address >=(DATA_BASE + DATA_LENGTH) || (address % 0x4 != 0))
+	if (address < DATA_BASE || address >= (DATA_BASE + DATA_LENGTH) || (address % 0x4 != 0))
 	{
 		std::exit(-11);
 	}
