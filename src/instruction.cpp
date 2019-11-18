@@ -113,13 +113,13 @@ void instruction_class::extract_i()
 
 
 //==========================EXECUTION==========================//
-void instruction_class::execute(std::vector<int32_t>& registers, memory mips_mem)
+void instruction_class::execute(std::vector<int32_t>& registers, memory& mips_mem)
 {
 	//std::cerr << "Entering Execute" << std::endl;
 	if (type == 'R')
 	{
 		//call r 
-		execute_r(registers, mips_mem);
+		execute_r(registers);
 		return;
 	}
 	else if (type == 'J')
@@ -140,20 +140,86 @@ void instruction_class::execute(std::vector<int32_t>& registers, memory mips_mem
 	}
 }
 
-void instruction_class::execute_r(std::vector<int32_t>& registers, memory mips_mem)
+void instruction_class::execute_r(std::vector<int32_t>& registers)
 {
 	//std::cerr << "Executing R Type" << std::endl;
 	switch (r_fn)
 	{
-	case 33:
-		addu(registers);
+	case 0:
+		sll(registers);
+		break;
+	case 2:
+		srl(registers);
+		break;
+	case 3:
+		sra(registers);
+		break;
+	case 4:
+		sllv(registers);
+		break;
+	case 6:
+		srlv(registers);
+		break;
+	case 7:
+		srav(registers);
+		break;
+	case 8:
+		jr(registers);
+		break;
+	case 9:
+		jalr(registers);
+		break;
+	case 16:
+		mfhi(registers);
+		break;
+	case 17:
+		mthi(registers);
+		break;
+	case 18:
+		mflo(registers);
+		break;
+	case 19:
+		mtlo(registers);
+		break;
+	case 24:
+		mult(registers);
+		break;
+	case 25:
+		multu(registers);
+		break;
+	case 26:
+		div(registers);
+		break;
+	case 27:
+		divu(registers);
 		break;
 	case 32:
 		add(registers);
 		break;
-	case 8:
-		jr(registers);
-
+	case 33:
+		addu(registers);
+		break;
+	case 34:
+		sub(registers);
+		break;
+	case 35:
+		subu(registers);
+		break;
+	case 36:
+		and_r(registers);
+		break;
+	case 37:
+		or_r(registers);
+		break;
+	case 38:
+		xor_r(registers);
+		break;
+	case 42:
+		slt(registers);
+		break;
+	case 43:
+		sltu(registers);
+		break;
 	default: std::cerr << "Default Path Taken";
 		break;
 
@@ -162,28 +228,109 @@ void instruction_class::execute_r(std::vector<int32_t>& registers, memory mips_m
 
 void instruction_class::execute_j(std::vector<int32_t>& registers, memory mips_mem)
 {
+	switch (opcode)
+	{
+	case 2:
+		j();
+		break;
+	case 3:
+		jal(registers);
+	break;	default: std::cerr << "Default Path Taken";
+	break;
 
+	}
 }
 
-void instruction_class::execute_i(std::vector<int32_t>& registers, memory mips_mem)
+void instruction_class::execute_i(std::vector<int32_t>& registers, memory& mips_mem)
 {
 	//std::cerr << "Executing I Type" << std::endl;
 	switch (opcode)
 	{
-	case 35:
-		lw(registers, mips_mem);
+	case 1:
+		switch (i_dest)
+		{
+		case 0:
+			bltz(registers);
+			break;
+		case 1:
+			bgez(registers);
+			break;
+		case 16:
+			bltzal(registers);
+			break;
+		case 17:
+			bgezal(registers);
+			break;
+		}
+	case 4:
+		beq(registers);
 		break;
-	case 43:
-		sw(registers, mips_mem);
+	case 5:
+		bne(registers);
+		break;
+	case 6:
+		blez(registers);
+		break;
+	case 7:
+		bgtz(registers);
 		break;
 	case 8:
-		//std::cerr << "entering addi" << std::endl;
 		addi(registers);
+		break;
+	case 9:
+		addiu(registers);
+		break;
+	case 10:
+		slti(registers);
+		break;
+	case 11:
+		sltiu(registers);
+		break;
+	case 12:
+		andi(registers);
+		break;
+	case 13:
+		ori(registers);
+		break;
+	case 14:
+		xori(registers);
 		break;
 	case 15:
 		lui(registers);
 		break;
-	default: std::cerr << "Nothing Chosen" << std::endl;
+	case 32:
+		lb(registers, mips_mem);
+		break;
+	case 33:
+		lh(registers, mips_mem);
+		break;
+	case 34:
+		lwl(registers, mips_mem);
+		break;
+	case 35:
+		lw(registers, mips_mem);
+		break;
+	case 36:
+		lbu(registers, mips_mem);
+		break;
+	case 37:
+		lhu(registers, mips_mem);
+		break;
+	case 38:
+		lwr(registers, mips_mem);
+		break;
+	case 40:
+		sb(registers, mips_mem);
+		break;
+	case 41:
+		sh(registers, mips_mem);
+		break;
+	case 43:
+		sw(registers, mips_mem);
+		break;
+	default:
+		std::cerr << "Default Path Taken";
+		break;
 	}
 }
 //==========================R TYPE==========================//
@@ -214,10 +361,41 @@ void instruction_class::add(std::vector<int32_t>& registers)
 		std::exit(10);
 	}
 }
+void instruction_class::sub(std::vector<int32_t>& registers)
+{
+	if (r_dest == 0) { return; }
+	signed long long source1 = registers[r_source1];
+	signed long long source2 = registers[r_source2];
+	signed long long result = source1 - source2;
+	if (result < -21474483648 || result > 21474483647)
+	{
+		std::exit(-10);
+	}
+	else
+	{
+		registers[r_dest] = registers[r_source1] - registers[r_source2];
+	}
+}
+void instruction_class::subu(std::vector<int32_t>& registers)
+{
+	if (r_dest == 0) { return; }
+	registers[r_dest] = registers[r_source1] - registers[r_source2];
+}
 void instruction_class::jr(std::vector<int32_t>& registers)
 {
 	jump = true;
 	jump_addr = registers[r_source1];
+}
+
+void instruction_class::jalr(std::vector<int32_t>& registers)
+{
+	jump = true;
+	jump_addr = registers[r_source1];
+	if (r_dest == 0) { return; }
+	else
+	{
+		registers[r_dest] = pc + 8;
+	}
 }
 
 void instruction_class::and_r(std::vector<int32_t>& registers)
@@ -247,7 +425,45 @@ void instruction_class::xor_r(std::vector<int32_t>& registers)
 	}
 }
 
-void instruction_class::ssl(std::vector<int32_t>& registers)
+
+
+void instruction_class::div(std::vector<int32_t>& registers)
+{
+	int32_t numerator = registers[r_source1];
+	int32_t denominator = registers[r_source2];
+	if (registers[r_source2] != 0)
+	{
+		reg_hi = numerator % denominator;
+		reg_lo = numerator / denominator;
+	}
+}
+
+void instruction_class::divu(std::vector<int32_t>& registers)
+{
+	uint32_t numerator = registers[r_source1];
+	uint32_t denominator = registers[r_source2];
+	if (denominator != 0)
+	{
+		reg_hi = numerator % denominator;
+		reg_lo = numerator / denominator;
+	}
+}
+
+void instruction_class::mult(std::vector<int32_t>& registers)
+{
+	int64_t product = (int64_t)registers[r_source1] * (int64_t)registers[r_source2];
+	reg_lo = (uint32_t)(product & 0xFFFFFFFF);
+	reg_hi = (int32_t)(product >> 32 & 0xFFFFFFFF);
+}
+
+void instruction_class::multu(std::vector<int32_t>& registers)
+{
+	uint64_t product = (uint64_t)registers[r_source1] * (uint64_t)registers[r_source2];
+	reg_lo = (uint32_t)(product & 0xFFFFFFFF);
+	reg_hi = (uint32_t)(product >> 32 & 0xFFFFFFFF);
+}
+
+void instruction_class::sll(std::vector<int32_t>& registers)
 {
 	if (r_dest == 0) { return; }
 	else
@@ -257,8 +473,134 @@ void instruction_class::ssl(std::vector<int32_t>& registers)
 }
 
 
+void instruction_class::sllv(std::vector<int32_t>& registers)
+{
+	int shift = registers[r_source1] & 0x1F;
+	registers[r_dest] = registers[r_source2] << shift;
+}
+
+void instruction_class::srl(std::vector<int32_t>& registers)
+{
+	if (r_dest == 0) { return; }
+
+	uint32_t source = registers[r_source2];
+	int32_t shifted = source >> registers[r_shiftamt];
+	registers[r_dest] = shifted;
+}
+
+void instruction_class::srlv(std::vector<int32_t>& registers)
+{
+	if (r_dest == 0) { return; }
+
+	uint32_t source = registers[r_source2];
+	int32_t shifted = source >> registers[r_source1];
+}
+
+void instruction_class::sra(std::vector<int32_t>& registers)
+{
+	if (r_dest == 0) { return; }
+
+	registers[r_dest] = registers[r_source2] >> registers[r_shiftamt];
+}
+
+void instruction_class::srav(std::vector<int32_t>& registers)
+{
+	if (r_dest == 0) { return; }
+
+	registers[r_dest] = registers[r_source2] >> registers[r_source1];
+}
+
+void instruction_class::slt(std::vector<int32_t>& registers)
+{
+	if (registers[r_source1] < registers[r_source2])
+	{
+		registers[r_dest] = 1;
+	}
+	else
+	{
+		registers[r_dest] = 0;
+	}
+}
+
+void instruction_class::sltu(std::vector<int32_t>& registers)
+{
+	if (i_dest == 0) { return; }
+	uint32_t source1 = r_source1;
+	uint32_t source2 = r_source2;
+
+	if (source1 < source2)
+	{
+		registers[r_dest] = 1;
+	}
+	else
+	{
+		registers[r_dest] = 0;
+	}
+}
+
+void instruction_class::mfhi(std::vector<int32_t>& registers)
+{
+	if (r_dest == 0) { return; }
+
+	registers[r_dest] = reg_hi;
+}
+
+void instruction_class::mflo(std::vector<int32_t>& registers)
+{
+	if (r_dest == 0) { return; }
+
+	registers[r_dest] = reg_lo;
+}
+
+void instruction_class::mthi(std::vector<int32_t>& registers)
+{
+	reg_hi = registers[r_source1];
+}
+
+void instruction_class::mtlo(std::vector<int32_t>& registers)
+{
+	reg_lo = registers[r_source1];
+}
+
+
+
 //==========================I TYPE==========================//
-void instruction_class::lw(std::vector<int32_t>& registers, memory mips_mem)
+void instruction_class::addi(std::vector<int32_t>& registers)
+{
+	//std::cerr << "Entered addi" << std::endl;
+	signed long long source = registers[i_source1];
+	signed long long imm = i_Astart;
+	signed long long result = source + imm;
+	result = result >> 32;
+
+	if (result != 0)
+	{
+		std::exit(-10);
+	}
+	else
+	{
+		int32_t imm = i_Astart;
+		registers[i_dest] = registers[i_source1] + imm;
+		//std::cerr << registers[i_dest] << std::endl;
+	}
+}
+
+void instruction_class::addiu(std::vector<int32_t>& registers)
+{
+	if (i_dest == 0) { return; }
+	int32_t imm = i_Astart;
+	registers[i_dest] = registers[i_source1] + imm;
+}
+
+void instruction_class::andi(std::vector<int32_t>& registers)
+{
+	if (i_dest == 0) { return; }
+
+	int32_t imm = i_Astart & 0x0000FFFF;// zero extend
+	registers[i_dest] = registers[i_source1] & imm;
+}
+
+void instruction_class::lw(std::vector<int32_t>& registers, memory& mips_mem)
 {
 	if (i_dest == 0) { return; }
 	uint32_t address = registers[i_source1] + i_Astart;
@@ -267,7 +609,7 @@ void instruction_class::lw(std::vector<int32_t>& registers, memory mips_mem)
 	registers[i_dest] = word;
 }
 
-void instruction_class::sw(std::vector<int32_t>& registers, memory mips_mem)
+void instruction_class::sw(std::vector<int32_t>& registers, memory& mips_mem)
 {
 	uint32_t address = registers[i_source1] + i_Astart;
 	uint32_t word = registers[i_dest];
@@ -276,33 +618,353 @@ void instruction_class::sw(std::vector<int32_t>& registers, memory mips_mem)
 
 void instruction_class::lui(std::vector<int32_t>& registers)
 {
+	if (i_dest == 0) { return; }
 	registers[i_dest] >> 16;
 	registers[i_dest] << 16;
 	registers[i_dest] = registers[i_dest] + i_Astart << 16;
 }
 void instruction_class::ori(std::vector<int32_t>& registers)
 {
+	if (i_dest == 0) { return; }
 	int32_t imm = i_Astart; //sign extension
 	registers[i_dest] = registers[i_source1] | imm;
 }
 
-
-void instruction_class::addi(std::vector<int32_t>& registers)
+void instruction_class::lb(std::vector<int32_t>& registers, memory& mips_mem)
 {
-	//std::cerr << "Entered addi" << std::endl;
-	signed long long source = registers[i_source1];
-	signed long long imm = i_Astart;
-	signed long long result = source + imm;
-	result = result >> 32;
-	//if (i_dest == 0) { return; }
+	if (i_dest == 0) { return; }
+	uint32_t address = registers[i_source1] + i_Astart;
+	int8_t byte;
+	mips_mem.get_byte(address, byte);
+	registers[i_dest] = (int32_t)byte;
+}
 
-	if (result != 0)
+void instruction_class::lbu(std::vector<int32_t>& registers, memory mips_mem)
+{
+	uint32_t address = registers[i_source1] + i_Astart;
+	int8_t byte;
+	mips_mem.get_byte(address, byte);
+	registers[i_dest] = (int32_t)byte;
+	registers[i_dest] = registers[i_dest] & 0x000000FF;
+}
+
+void instruction_class::lh(std::vector<int32_t>& registers, memory mips_mem)
+{
+	uint32_t address = registers[i_source1] + i_Astart;
+	int16_t half_word;
+	mips_mem.get_half_word(address, half_word);
+	registers[i_dest] = int32_t(half_word);
+
+
+}
+
+void instruction_class::lhu(std::vector<int32_t>& registers, memory mips_mem)
+{
+	uint32_t address = registers[i_source1] + i_Astart;
+	int16_t half_word;
+	mips_mem.get_half_word(address, half_word);
+	registers[i_dest] = int32_t(half_word);
+	registers[i_dest] = registers[i_dest] & 0x0000FFFF;
+}
+
+void instruction_class::lwl(std::vector<int32_t>& registers, memory mips_mem)
+{
+	uint32_t eff_address = i_Astart + registers[i_source1];
+	int no_MSB_bytes = 4 - eff_address % 4;
+	uint32_t word;
+	switch (no_MSB_bytes)
+
 	{
-		std::exit(-10);
+	case 4:
+		mips_mem.get_word(eff_address, word);
+		registers[i_dest] = word;
+		break;
+	case 3:
+		mips_mem.get_word(eff_address - 1, word);
+		word = word << 8;
+		registers[i_dest] = registers[i_dest] & 0xFF;
+		registers[i_dest] += word;
+		break;
+	case 2:
+		mips_mem.get_word(eff_address - 2, word);
+		word = word << 16;
+		registers[i_dest] = registers[i_dest] & 0xFFFF;
+		registers[i_dest] += word;
+		break;
+	case 1:
+		mips_mem.get_word(eff_address - 3, word);
+		word = word << 24;
+		registers[i_dest] = registers[i_dest] & 0xFFFFFF;
+		registers[i_dest] += word;
+		break;
+
+
+
+
+	}
+}
+
+void instruction_class::lwr(std::vector<int32_t>& registers, memory mips_mem)
+{
+	uint32_t eff_address = i_Astart + registers[i_source1];
+	int no_LSB_bytes = eff_address % 4;
+	uint32_t word;
+	switch (no_LSB_bytes)
+
+	{
+	case 3:
+		mips_mem.get_word(eff_address - 3, word);
+		word = word >> 8;
+		registers[i_dest] = registers[i_dest] & 0xFF000000;
+		registers[i_dest] += word;
+		break;
+	case 2:
+		mips_mem.get_word(eff_address - 2, word);
+		word = word >> 16;
+		registers[i_dest] = registers[i_dest] & 0xFFFF0000;
+		registers[i_dest] += word;
+		break;
+	case 1:
+		mips_mem.get_word(eff_address - 1, word);
+		word = word >> 24;
+		registers[i_dest] = registers[i_dest] & 0xFFFFFF00;
+		registers[i_dest] += word;
+		break;
+	case 0:
+		mips_mem.get_word(eff_address, word);
+		registers[i_dest] = word;
+		break;
+
+	}
+}
+
+void instruction_class::sb(std::vector<int32_t>& registers, memory& mips_mem)
+{
+	uint32_t address = registers[i_source1] + i_Astart;
+	int8_t byte = (int8_t)(registers[i_dest] & 0xFF);
+	mips_mem.put_byte(address, byte);
+}
+
+void instruction_class::sh(std::vector<int32_t>& registers, memory& mips_mem)
+{
+	uint32_t address = registers[i_source1] + i_Astart;
+	int16_t half_word = (uint16_t)(registers[i_dest] & 0xFFFF);
+	mips_mem.put_half_word(address, half_word);
+}
+
+void instruction_class::slti(std::vector<int32_t>& registers)
+{
+	if (i_dest == 0) { return; }
+
+	int16_t imm = i_Astart;
+	if (registers[i_source1] < imm)
+	{
+		registers[i_dest] = 1;
 	}
 	else
 	{
-		registers[i_dest] = registers[i_source1] + i_Astart;
-		//std::cerr << registers[i_dest] << std::endl;
+		registers[i_dest] = 0;
 	}
 }
+
+void instruction_class::sltiu(std::vector<int32_t>& registers)
+{
+	if (i_dest == 0) { return; }
+
+	if (registers[i_source1] < i_Astart)
+	{
+		registers[i_dest] = 1;
+	}
+	else
+	{
+		registers[i_dest] = 0;
+	}
+}
+
+void instruction_class::xori(std::vector<int32_t>& registers)
+{
+	if (i_dest == 0) { return; }
+
+	uint32_t imm = i_Astart;
+	registers[i_dest] = registers[i_source1] ^ imm;
+}
+
+void instruction_class::beq(std::vector<int32_t>& registers)
+{
+	if (i_source1 == i_dest)
+	{
+		int16_t imm = i_Astart;
+		int32_t imm32 = (int32_t)imm;
+		uint32_t eff_addr = pc + 4 + (imm32 << 2);
+		if ((eff_addr < INSTR_BASE || eff_addr >(INSTR_BASE + INSTR_LENGTH) || eff_addr % 4 != 0) && eff_addr != 0)
+		{
+			std::exit(-11);
+		}
+		else
+		{
+			jump = true;
+			jump_addr = eff_addr;
+		}
+	}
+}
+
+void instruction_class::bgez(std::vector<int32_t>& registers)
+{
+	if (i_source1 >= 0)
+	{
+		int16_t imm = i_Astart;
+		int32_t imm32 = (int32_t)imm;
+		uint32_t eff_addr = pc + 4 + (imm32 << 2);
+		if ((eff_addr < INSTR_BASE || eff_addr >(INSTR_BASE + INSTR_LENGTH) || eff_addr % 4 != 0) && eff_addr != 0)
+		{
+			std::exit(-11);
+		}
+		else
+		{
+			jump = true;
+			jump_addr = eff_addr;
+		}
+	}
+}
+
+void instruction_class::bgezal(std::vector<int32_t>& registers)
+{
+
+	if (i_source1 >= 0)
+	{
+		int16_t imm = i_Astart;
+		int32_t imm32 = (int32_t)imm;
+		uint32_t eff_addr = pc + 4 + (imm32 << 2);
+		if ((eff_addr < INSTR_BASE || eff_addr >(INSTR_BASE + INSTR_LENGTH) || eff_addr % 4 != 0) && eff_addr != 0)
+		{
+			std::exit(-11);
+		}
+		else
+		{
+			jump = true;
+			jump_addr = eff_addr;
+			registers[31] = pc + 8;
+		}
+	}
+}
+
+void instruction_class::bgtz(std::vector<int32_t>& registers)
+{
+	if (i_source1 > 0)
+	{
+		int16_t imm = i_Astart;
+		int32_t imm32 = (int32_t)imm;
+		uint32_t eff_addr = pc + 4 + (imm32 << 2);
+		if ((eff_addr < INSTR_BASE || eff_addr >(INSTR_BASE + INSTR_LENGTH) || eff_addr % 4 != 0) && eff_addr != 0)
+		{
+			std::exit(-11);
+		}
+		else
+		{
+			jump = true;
+			jump_addr = eff_addr;
+		}
+	}
+}
+
+void instruction_class::blez(std::vector<int32_t>& registers)
+{
+	if (i_source1 <= 0)
+	{
+		int16_t imm = i_Astart;
+		int32_t imm32 = (int32_t)imm;
+		uint32_t eff_addr = pc + 4 + (imm32 << 2);
+		if ((eff_addr < INSTR_BASE || eff_addr >(INSTR_BASE + INSTR_LENGTH) || eff_addr % 4 != 0) && eff_addr != 0)
+		{
+			std::exit(-11);
+		}
+		else
+		{
+			jump = true;
+			jump_addr = eff_addr;
+			registers[31] = pc + 8;
+		}
+	}
+}
+
+void instruction_class::bltz(std::vector<int32_t>& registers)
+{
+	if (i_source1 < 0)
+	{
+		int16_t imm = i_Astart;
+		int32_t imm32 = (int32_t)imm;
+		uint32_t eff_addr = pc + 4 + (imm32 << 2);
+		if ((eff_addr < INSTR_BASE || eff_addr >(INSTR_BASE + INSTR_LENGTH) || eff_addr % 4 != 0) && eff_addr != 0)
+		{
+			std::exit(-11);
+		}
+		else
+		{
+			jump = true;
+			jump_addr = eff_addr;
+			registers[31] = pc + 8;
+		}
+	}
+}
+
+void instruction_class::bltzal(std::vector<int32_t>& registers)
+{
+	if (i_source1 < 0)
+	{
+		int16_t imm = i_Astart;
+		int32_t imm32 = (int32_t)imm;
+		uint32_t eff_addr = pc + 4 + (imm32 << 2);
+		if ((eff_addr < INSTR_BASE || eff_addr >(INSTR_BASE + INSTR_LENGTH) || eff_addr % 4 != 0) && eff_addr != 0)
+		{
+			std::exit(-11);
+		}
+		else
+		{
+			jump = true;
+			jump_addr = eff_addr;
+			registers[31] = pc + 8;
+		}
+	}
+}
+
+void instruction_class::bne(std::vector<int32_t>& registers)
+{
+	if (i_source1 != i_dest)
+	{
+		int16_t imm = i_Astart;
+		int32_t imm32 = (int32_t)imm;
+		uint32_t eff_addr = pc + 4 + (imm32 << 2);
+		if ((eff_addr < INSTR_BASE || eff_addr >(INSTR_BASE + INSTR_LENGTH) || eff_addr % 4 != 0) && eff_addr != 0)
+		{
+			std::exit(-11);
+		}
+		else
+		{
+			jump = true;
+			jump_addr = eff_addr;
+			registers[31] = pc + 8;
+		}
+	}
+}
+
+void instruction_class::j()
+{
+	jump = true;
+	uint32_t branch_delay = pc + 4;
+	jump_addr = branch_delay & 0xF0000000;
+	jump_addr += j_address;
+}
+
+void instruction_class::jal(std::vector<int32_t>& registers)
+{
+
+	jump = true;
+	uint32_t branch_delay = pc + 4;
+	jump_addr = branch_delay & 0xF0000000;
+	jump_addr += j_address;
+	registers[31] = pc + 8;
+}
+
+
+
+
