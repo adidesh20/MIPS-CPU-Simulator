@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 				int32_t r2 = registers[2] << 24;
 				uint8_t ret = r2 >> 24;
 				std::exit(ret);
-				return 0;
+
 			}
 			jump = false;
 			mips_mem.get_instr(delay_instruction);
