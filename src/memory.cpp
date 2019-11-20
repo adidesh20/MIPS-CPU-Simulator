@@ -67,7 +67,7 @@ void memory::get_byte(uint32_t address, int8_t& byte)
 		{
 			std::exit(-21);
 		}
-		if (input == EOF || !std::cin.eof())
+		if (input == EOF || std::cin.eof())
 		{
 			byte = 0xF;
 			return;
@@ -90,7 +90,7 @@ void memory::get_byte(uint32_t address, int8_t& byte)
 
 void memory::get_word(uint32_t address, uint32_t& word)
 {
-	if (pc % 4 != 0)
+	if (address % 4 != 0)
 	{
 		std::exit(-11);
 	}
@@ -109,7 +109,7 @@ void memory::get_word(uint32_t address, uint32_t& word)
 		{
 			std::exit(-21);
 		}
-		if (input == EOF || !std::cin.eof())
+		if (input == EOF || std::cin.eof())
 		{
 			word = 0xFFFF;
 			return;
@@ -152,7 +152,7 @@ void memory::get_half_word(uint32_t address, int16_t & half_word)
 		{
 			std::exit(-21);
 		}
-		if (input == EOF || !std::cin.eof())
+		if (input == EOF || std::cin.eof())
 		{
 			half_word = 0xFF;
 			return;
@@ -183,11 +183,12 @@ void memory::put_byte(uint32_t address, int8_t& byte)
 	}
 	else if ((address >= PUTC_BASE) && (address < (PUTC_BASE + PUTC_LENGTH)))
 	{
+		char out = byte;
 		if (!std::cout.good())
 		{
 			std::exit(-21);
 		}
-		putchar(byte);
+		putchar(out);
 	}
 	else
 	{
@@ -214,7 +215,8 @@ void memory::put_word(uint32_t address, uint32_t& word)
 	}
 	else if ((address >= PUTC_BASE) && (address < (PUTC_BASE + PUTC_LENGTH)))
 	{
-		int8_t out = (int8_t)(word && 0xFF);
+		int8_t out = (int8_t)(word & 0xFF);
+
 		if (!std::cout.good())
 		{
 			std::exit(-21);
@@ -242,7 +244,7 @@ void memory::put_half_word(uint32_t address, int16_t & half_word)
 	}
 	else if ((address >= PUTC_BASE) && (address < (PUTC_BASE + PUTC_LENGTH)))
 	{
-		int8_t out = (int8_t)(half_word && 0xF);
+		char out = (int8_t)(half_word & 0xFF);
 		if (!std::cout.good())
 		{
 			std::exit(-21);
