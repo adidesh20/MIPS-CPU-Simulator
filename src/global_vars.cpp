@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "global_vars.hpp"
 #include "constants.hpp"
 #include <iostream>
