@@ -14,7 +14,7 @@ global_vars.o: global_vars.cpp global_vars.hpp
 	g++ -c global_vars.cpp
 	
 run: 
-	bin/simulator binary.bin
+	bin/simulator sw_0a.bin
 	
 clean:
 	rm -rf "*.o"
