@@ -10,6 +10,10 @@ memory::memory(std::ifstream &bin)
 {
 	bin.seekg(0, bin.end);
 	int size = bin.tellg();
+	if (size % 4 != 0)
+	{
+		std::exit(-12);
+	}
 	bin.seekg(0);
 	char * buffer;
 	buffer = new char[size];
