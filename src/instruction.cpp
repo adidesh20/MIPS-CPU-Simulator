@@ -72,9 +72,8 @@ void instruction_class::decode()
 	}
 	else
 	{
-		std::cout << "ERROR";
+		std::exit(-12);
 	}
-
 
 }
 
@@ -346,7 +345,7 @@ void instruction_class::addu(std::vector<int32_t>& registers)
 
 void instruction_class::add(std::vector<int32_t>& registers)
 {
-    if (r_dest == 0) { return; }
+	if (r_dest == 0) { return; }
 	int32_t result = registers[r_source1] + registers[r_source2];
 	if ((registers[r_source1] > 0) && (registers[r_source2] > 0) && (result <= 0)) {
 		std::exit(-10);
@@ -452,8 +451,9 @@ void instruction_class::mult(std::vector<int32_t>& registers)
 }
 
 void instruction_class::multu(std::vector<int32_t>& registers)
-{   uint32_t ur_source1=registers[r_source1];
-    uint32_t ur_source2=registers[r_source2];
+{
+	uint32_t ur_source1 = registers[r_source1];
+	uint32_t ur_source2 = registers[r_source2];
 	uint64_t product = (uint64_t)ur_source1 * (uint64_t)ur_source2;
 	reg_lo = (uint32_t)(product & 0xFFFFFFFF);
 	reg_hi = (uint32_t)(product >> 32 & 0xFFFFFFFF);
@@ -487,9 +487,9 @@ void instruction_class::srl(std::vector<int32_t>& registers)
 void instruction_class::srlv(std::vector<int32_t>& registers)
 {
 	if (r_dest == 0) { return; }
-	int shift= registers[r_source1]& 0x1F;
-    
-    registers[r_dest]= registers[r_source2]>>shift;
+	int shift = registers[r_source1] & 0x1F;
+
+	registers[r_dest] = registers[r_source2] >> shift;
 }
 
 void instruction_class::sra(std::vector<int32_t>& registers)
@@ -497,13 +497,13 @@ void instruction_class::sra(std::vector<int32_t>& registers)
 	if (r_dest == 0) { return; }
 
 	registers[r_dest] = registers[r_source2] >> r_shiftamt;
-    
+
 }
 
 void instruction_class::srav(std::vector<int32_t>& registers)
 {
 	if (r_dest == 0) { return; }
-    int shift= registers[r_source1]& 0x1F;
+	int shift = registers[r_source1] & 0x1F;
 	registers[r_dest] = registers[r_source2] >> shift;
 }
 
@@ -607,7 +607,7 @@ void instruction_class::lw(std::vector<int32_t>& registers, memory& mips_mem)
 
 void instruction_class::sw(std::vector<int32_t>& registers, memory& mips_mem)
 {
-    int16_t imm=i_Astart;
+	int16_t imm = i_Astart;
 	uint32_t address = registers[i_source1] + imm;
 	uint32_t word = registers[i_dest];
 	mips_mem.put_word(address, word);
@@ -616,9 +616,9 @@ void instruction_class::sw(std::vector<int32_t>& registers, memory& mips_mem)
 void instruction_class::lui(std::vector<int32_t>& registers)
 {
 	if (i_dest == 0) { return; }
-	registers[i_dest] >> 16;
-	registers[i_dest] << 16;
-	registers[i_dest] = registers[i_dest] + i_Astart << 16;
+	uint32_t imm = i_Astart; //zero extension
+	imm = imm << 16;
+	registers[i_dest] = imm;
 }
 void instruction_class::ori(std::vector<int32_t>& registers)
 {
@@ -712,7 +712,7 @@ void instruction_class::lwr(std::vector<int32_t>& registers, memory mips_mem)
 	if (i_dest == 0) { return; }
 	int16_t imm = i_Astart;
 	uint32_t eff_address = registers[i_source1] + imm;
-	int no_LSB_bytes = (eff_address % 4)+1;
+	int no_LSB_bytes = (eff_address % 4) + 1;
 	uint32_t word;
 	switch (no_LSB_bytes)
 
@@ -735,7 +735,7 @@ void instruction_class::lwr(std::vector<int32_t>& registers, memory mips_mem)
 		break;
 	case 1:
 		mips_mem.get_word(eff_address, word);
-        word = word >> 24;
+		word = word >> 24;
 		registers[i_dest] = registers[i_dest] & 0xFFFFFF00;
 		registers[i_dest] += word;
 		break;
@@ -744,16 +744,16 @@ void instruction_class::lwr(std::vector<int32_t>& registers, memory mips_mem)
 }
 void instruction_class::sb(std::vector<int32_t>& registers, memory& mips_mem)
 
-{   
-    int16_t imm=i_Astart;
+{
+	int16_t imm = i_Astart;
 	uint32_t address = registers[i_source1] + imm;
 	int8_t byte = (int8_t)(registers[i_dest] & 0xFF);
 	mips_mem.put_byte(address, byte);
 }
 
 void instruction_class::sh(std::vector<int32_t>& registers, memory& mips_mem)
-{   
-    int16_t imm=i_Astart;
+{
+	int16_t imm = i_Astart;
 	uint32_t address = registers[i_source1] + imm;
 	int16_t half_word = (uint16_t)(registers[i_dest] & 0xFFFF);
 	mips_mem.put_half_word(address, half_word);
@@ -777,7 +777,7 @@ void instruction_class::slti(std::vector<int32_t>& registers)
 void instruction_class::sltiu(std::vector<int32_t>& registers)
 {
 	if (i_dest == 0) { return; }
-    
+
 	if ((uint32_t)registers[i_source1] < i_Astart)
 	{
 		registers[i_dest] = 1;
@@ -852,7 +852,7 @@ void instruction_class::bgezal(std::vector<int32_t>& registers)
 		{
 			jump = true;
 			jump_addr = eff_addr;
-			
+
 		}
 	}
 }
@@ -933,7 +933,7 @@ void instruction_class::bltzal(std::vector<int32_t>& registers)
 		{
 			jump = true;
 			jump_addr = eff_addr;
-			
+
 		}
 	}
 }
