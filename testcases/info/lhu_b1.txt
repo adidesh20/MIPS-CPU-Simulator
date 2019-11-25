@@ -1,0 +1,7 @@
+#lhu_b0
+#LHU
+#gr1518
+#calls GETC at misalligned memory location
+#245
+#
+#

@@ -1,0 +1,7 @@
+#addiu_a1
+#ADDIU
+#gr1518
+#check for sign extension through signed addition
+#49
+#
+#

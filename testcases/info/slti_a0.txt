@@ -1,0 +1,7 @@
+#slti_a0
+#SLTI
+#ad5718
+#Testing case SLTI=true
+#1
+#
+#

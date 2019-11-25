@@ -1,0 +1,7 @@
+#sltiu_a1
+#SLTIU
+#ad5718
+#Testing case SLTIU=true but immediate is negative
+#1
+#
+#

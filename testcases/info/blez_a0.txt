@@ -1,0 +1,7 @@
+#blez_a0
+#BLEZ
+#ad5718
+#Testing case BLEZ=true
+#4
+#
+#

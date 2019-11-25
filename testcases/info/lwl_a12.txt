@@ -1,0 +1,7 @@
+#lwl_a12
+#LWL
+#gr1518
+#load 1 byte - checks 4th (LS) byte
+#0
+#
+#

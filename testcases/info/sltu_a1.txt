@@ -1,0 +1,7 @@
+#sltu_a1
+#SLTU
+#ad5718
+#Testing case SLTU=true but an operand is a negative number
+#1
+#
+#

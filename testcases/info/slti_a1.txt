@@ -1,0 +1,7 @@
+#slti_a1
+#SLTI
+#ad5718
+#Testing case SLTI=true but with negative numbers
+#1
+#
+#

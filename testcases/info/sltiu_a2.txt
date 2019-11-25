@@ -1,0 +1,7 @@
+#sltiu_a2
+#SLTIU
+#ad5718
+#Testing case SLTIU=false with negative numbers
+#0
+#
+#

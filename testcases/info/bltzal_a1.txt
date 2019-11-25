@@ -1,0 +1,7 @@
+#bltzal_a1
+#BLTZAL
+#ad5718
+#Testing case BLTZAL=false with link register write
+#22
+#
+#

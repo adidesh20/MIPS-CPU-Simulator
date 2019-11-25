@@ -1,0 +1,8 @@
+#xori_a0
+#XORI
+#ad5718
+#Testing simple XORI
+#147
+#
+#
+

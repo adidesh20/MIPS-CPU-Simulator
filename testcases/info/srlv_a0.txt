@@ -1,0 +1,7 @@
+#srlv_a0
+#SRLV
+#ad5718
+#Testing basic right shift
+#90
+#
+#

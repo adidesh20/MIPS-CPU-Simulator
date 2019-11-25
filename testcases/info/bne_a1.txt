@@ -1,0 +1,7 @@
+#bne_a1
+#BNE
+#ad5718
+#Testing case BNE=false
+#7
+#
+#

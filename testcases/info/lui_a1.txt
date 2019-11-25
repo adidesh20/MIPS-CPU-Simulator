@@ -1,0 +1,7 @@
+#lui_a1
+#LUI
+#gr1518
+#checks most significant 16 bits
+#100
+#
+#

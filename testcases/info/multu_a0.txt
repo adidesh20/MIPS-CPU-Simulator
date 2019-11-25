@@ -1,0 +1,7 @@
+#multu_a0
+#MULTU
+#gr1518
+# checks HI register
+#135
+#
+#

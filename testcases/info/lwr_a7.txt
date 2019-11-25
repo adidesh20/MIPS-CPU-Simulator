@@ -1,0 +1,7 @@
+#lwr_a7
+#LWR
+#gr1518
+#load 3 bytes - checks 1st byte
+#0
+#
+#

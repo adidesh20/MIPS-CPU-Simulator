@@ -1,0 +1,7 @@
+#sh_b4
+#SH
+#gr1518
+#stores outside range (GETC)
+#245
+#
+#

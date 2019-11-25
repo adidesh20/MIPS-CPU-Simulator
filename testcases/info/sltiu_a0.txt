@@ -1,0 +1,7 @@
+#sltiu_a0
+#SLTIU
+#ad5718
+#Testing case SLTIU=true
+#1
+#
+#

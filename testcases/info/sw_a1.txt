@@ -1,0 +1,7 @@
+#sw_a1
+#SW
+#gr1518
+#Normal store word
+#50
+#
+#

@@ -1,0 +1,9 @@
+#xori_a1
+#XORI
+#ad5718
+#Testing sign extension
+#240
+#
+#
+
+

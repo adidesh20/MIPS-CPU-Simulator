@@ -1,0 +1,7 @@
+#mfhi_b0
+#MFHI
+#ad5718
+#Testing writing to GPR 0
+#0
+#
+#

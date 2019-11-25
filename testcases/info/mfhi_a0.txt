@@ -1,0 +1,7 @@
+#mfhi_a0
+#MFHI
+#ad5718
+#Testing moving from zero initialised HI
+#0
+#
+#

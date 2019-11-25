@@ -1,0 +1,7 @@
+#mult_a2
+#MULT
+#gr1518
+# checks HI register
+#6
+#
+#

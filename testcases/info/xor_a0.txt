@@ -1,0 +1,7 @@
+#xor_a0
+#XOR
+#ad5718
+#Testing simple XOR
+#147
+#
+#

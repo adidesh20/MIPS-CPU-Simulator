@@ -1,0 +1,7 @@
+#mflo_a0
+#MFLO
+#ad5718
+#Testing loading from zero initialised LO
+#0
+#
+#

@@ -1,0 +1,7 @@
+#jal_a0
+#JAL
+#ad5718
+#Testing normal jump with delay slot and link register write
+#20
+#
+#

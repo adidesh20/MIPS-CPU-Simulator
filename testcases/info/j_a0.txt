@@ -1,0 +1,7 @@
+#j_a0
+#J
+#ad5718
+#Testing normal jump and delay slot
+#5
+#
+#

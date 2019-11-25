@@ -1,0 +1,7 @@
+#addiu_a0
+#ADDIU
+#gr1518
+#basic addition
+#90
+#
+#

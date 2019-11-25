@@ -1,0 +1,7 @@
+#lwl_a2
+#LWL
+#gr1518
+#load word - checks 2nd byte
+#52
+#
+#

@@ -1,0 +1,7 @@
+#sll_a0
+#SLL
+#ad5718
+#Testing basic left shift
+#128
+#
+#

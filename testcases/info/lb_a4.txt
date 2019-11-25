@@ -1,0 +1,7 @@
+#lb_a4
+#LB
+#gr1518
+#reads from instruction memory
+#32
+#
+#

@@ -1,0 +1,7 @@
+#srav_a0
+#SRAV
+#gr1518
+#Testing normal arithmetic shift
+#18
+#
+#

@@ -1,0 +1,7 @@
+#bne_a2
+#BNE
+#ad5718
+#Testing delay slot
+#10
+#
+#

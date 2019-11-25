@@ -1,0 +1,7 @@
+#lw_b2
+#LW
+#gr1518
+#reads misalligned memory location
+#245
+#
+#

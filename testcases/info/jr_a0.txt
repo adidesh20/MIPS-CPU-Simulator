@@ -1,0 +1,7 @@
+#jr_a0
+#JR
+#ad5718
+#Testing normal jump with delay slot
+#12
+#
+#

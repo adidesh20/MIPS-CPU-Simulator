@@ -1,0 +1,7 @@
+#internal_a1
+#INTERNAL
+#ad5718
+#Testing if variants of add and sub can write to GPR 0
+#0
+#
+#

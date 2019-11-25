@@ -1,0 +1,7 @@
+#lhu_a3
+#LHU
+#gr1518
+#reads from instruction memory
+#99
+#
+#

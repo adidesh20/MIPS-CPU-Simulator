@@ -1,0 +1,7 @@
+#srl_a0
+#SRL
+#ad5718
+#Testing basic right shift
+#90
+#
+#

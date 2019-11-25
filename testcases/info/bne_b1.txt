@@ -1,0 +1,7 @@
+#bne_b1
+#BNE
+#ad5718
+#Testing branching to address in instr memory which does not contain an instruction
+#245
+#
+#

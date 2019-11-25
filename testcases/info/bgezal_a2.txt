@@ -1,0 +1,8 @@
+#bgezal_a2
+#BGEZAL
+#ad5718
+#Testing case BGEZAL=true equal to zero case and link register write
+#17
+#
+#
+

@@ -1,0 +1,7 @@
+#sh_a0
+#SH
+#gr1518
+#normal store halfword
+#50
+#
+#

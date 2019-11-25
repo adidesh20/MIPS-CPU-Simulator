@@ -1,0 +1,7 @@
+#lwr_a5
+#LWR
+#gr1518
+#load 3 byte - checks 3rd byte
+#52
+#
+#

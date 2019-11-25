@@ -1,0 +1,7 @@
+#sltu_a0
+#SLTU
+#ad5718
+#Testing case SLTU=true with unsigned inputs
+#1
+#
+#

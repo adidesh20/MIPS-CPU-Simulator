@@ -1,0 +1,7 @@
+#lwl_a6
+#LWL
+#gr1518
+#load 3 bytes - checks 2nd byte
+#86
+#
+#

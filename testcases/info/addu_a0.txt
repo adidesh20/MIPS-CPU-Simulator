@@ -1,0 +1,7 @@
+#addu_a0
+#ADDU
+#gr1518
+#basic addition
+#50
+#
+#

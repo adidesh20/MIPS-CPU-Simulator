@@ -1,0 +1,8 @@
+#ori_a0
+#ORI
+#ad5718
+#Testing normal ori function
+#255
+#
+#
+

@@ -1,0 +1,7 @@
+#bgtz_a0
+#BGTZ
+#ad5718
+#Testing case BGTZ=true
+#4
+#
+#

@@ -1,0 +1,7 @@
+#sh_b3
+#SH
+#gr1518
+#stores outside range 
+#245
+#
+#

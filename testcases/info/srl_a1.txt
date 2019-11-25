@@ -1,0 +1,7 @@
+#srl_a1
+#SRL
+#ad5718
+#Testing logical right shift on negative number
+#166
+#
+#

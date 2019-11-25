@@ -1,0 +1,7 @@
+#bgez_a0
+#BGEZ
+#ad5718
+#Testing case BGEZ = true
+#4
+#
+#

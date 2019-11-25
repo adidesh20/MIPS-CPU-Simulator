@@ -1,0 +1,7 @@
+#sra_a0
+#SRA
+#gr1518
+#Testing normal arithmetic shift
+#18
+#
+#

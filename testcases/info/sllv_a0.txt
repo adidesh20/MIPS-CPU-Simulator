@@ -1,0 +1,7 @@
+#sllv_a0
+#SLLV
+#ad5718
+#Testing basic shift 
+#20
+#
+#

@@ -1,0 +1,7 @@
+#lwl_a3
+#LWL
+#gr1518
+#load word - checks 1st byte
+#18
+#
+#

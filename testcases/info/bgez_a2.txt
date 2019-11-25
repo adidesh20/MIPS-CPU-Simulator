@@ -1,0 +1,7 @@
+#bgez_a2
+#BGEZ
+#ad5718
+#Testing BGEZ=true equal to zero case
+#5
+#
+#

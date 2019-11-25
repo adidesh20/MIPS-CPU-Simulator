@@ -1,0 +1,7 @@
+#blez_a2
+#BLEZ
+#ad5718
+#Testing case BLEZ=true equal to zero case
+#4
+#
+#

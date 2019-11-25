@@ -1,0 +1,7 @@
+#lwr_a8
+#LWR
+#gr1518
+#load 2 bytes - checks 4th byte
+#52
+#
+#

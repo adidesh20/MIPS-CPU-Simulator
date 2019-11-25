@@ -1,0 +1,8 @@
+#bltz_a0
+#BLTZ
+#ad5718
+#Testing case BLTZ=true
+#4
+#
+#
+

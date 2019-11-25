@@ -1,0 +1,7 @@
+#srlv_a1
+#SRLV
+#ad5718
+#Testing logical right shift on negative number
+#166
+#
+#

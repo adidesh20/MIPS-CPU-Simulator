@@ -1,0 +1,7 @@
+#slt_a0
+#SLT
+#ad5718
+#Testing case SLT=true
+#1
+#
+#

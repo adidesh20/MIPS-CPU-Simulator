@@ -1,0 +1,7 @@
+#internal_a0
+#INTERNAL
+#ad5718
+#Testing zero initialisation of registers
+#0
+#
+#

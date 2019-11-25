@@ -1,0 +1,7 @@
+#lwr_a0
+#LWR
+#gr1518
+#load word - checks 4th(LS) byte
+#120
+#
+#

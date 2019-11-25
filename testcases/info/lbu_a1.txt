@@ -1,0 +1,7 @@
+#lbu_a1
+#LBU
+#gr1518
+#checks  zero extension
+#0
+#
+#

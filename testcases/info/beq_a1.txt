@@ -1,0 +1,7 @@
+#beq_a1
+#BEQ
+#ad5718
+#Testing case BEQ=false and delay slot
+#2
+#
+#

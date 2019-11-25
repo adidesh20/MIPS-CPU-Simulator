@@ -1,0 +1,7 @@
+#lwl_a1
+#LWL
+#gr1518
+#load word - checks 3rd byte
+#86
+#
+#
