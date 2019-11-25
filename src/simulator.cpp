@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	if (!bin.is_open())
 	{
 		//std::cerr << "Could not open binary" << std::endl;
-		std::exit(-20);
+		std::exit(-21);
 	}
 	else
 	{
