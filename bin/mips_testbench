@@ -1,0 +1,50 @@
+#!/bin/bash
+simulatorPath="bin/mips_simulator"
+binaryPath="testcases/binaries"
+infoPath="testcases/info/*.txt"
+
+function test()
+{
+for f in $infoPath
+do
+  testInfo=()
+	while IFS='' read -r line || [[ -n "$line" ]]; do
+      info="${line//#}"
+      testInfo+=("$info")
+    done < $f
+    
+    local testID=${testInfo[0]}
+    local testInstr=${testInfo[1]}
+    local author=${testInfo[2]}
+    local details=${testInfo[3]}
+    local expReturn=${testInfo[4]}
+    local expPUTC=${testInfo[5]}
+    local GETCinput=${testInfo[6]}
+    
+    accPUTC=$(echo $GETCinput | $simulatorPath "$binaryPath/$testID.bin")
+    accReturn=$?
+    local result="pass"
+    
+        
+    if [[ "$accReturn" -eq "$expReturn" ]] && [[ "$accPUTC" = "$expPUTC" ]]; then
+        result="pass"
+    else 
+        result="fail"
+    fi
+   
+    
+    if [ "$result" = "pass" ]; then
+        local output="$testID , $testInstr , $result , $author , $details"
+        echo $output
+    fi
+    if [ "$result" = "fail" ]; then
+        local message="RETURNED $accReturn INSTEAD OF $expReturn and OUTPUTTED  $accPUTC INSTEAD OF $expPUTC"
+        echo "$testID , $testInstr , $result , $author , $details : $message"
+    fi
+    
+    
+    
+done
+}
+
+test
