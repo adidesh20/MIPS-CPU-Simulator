@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		std::cout << "Binary not found" << std::endl;
+		//std::cout << "Binary not found" << std::endl;
 		std::exit(-21);
 	}
 
@@ -30,12 +30,12 @@ int main(int argc, char *argv[])
 
 	if (!bin.is_open())
 	{
-		std::cerr << "Could not open binary" << std::endl;
-		std::exit(-21);
+		//std::cerr << "Could not open binary" << std::endl;
+		std::exit(-20);
 	}
 	else
 	{
-		std::cerr << "File was found!" << std::endl;
+		//std::cerr << "File was found!" << std::endl;
 
 	}
 
